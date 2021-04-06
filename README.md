@@ -2,6 +2,7 @@
 [GitHub](https://github.com/KivancTok) - [Youtube](https://youtube.com/user/atakanntok)
 # Pyhton Examples
 ## Basic
+A script that prints `Hello world!` into your python console:
 ```py
 print("Hello world!")
 ```
