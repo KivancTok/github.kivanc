@@ -1,5 +1,5 @@
 # Links
-[GitHub](https://github.com/KivancTok) - [Youtube](https://youtube.com/user/atakanntok)
+[GitHub](https://github.com/Techsplosion) - [Youtube](https://www.youtube.com/channel/UCzbYYyFvd5lXhEK_EdnPkTw/videos)
 # Pyhton Examples
 ## Basic
 A script that prints `Hello world!` into your python console:
