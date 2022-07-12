@@ -13,7 +13,7 @@ i = 0
 print(i%2)
 ```
 ## Complicated
-Calculator:
+Calculator (old, don't recommend):
 ```py
 import math
 print("Calculator 2.9")
