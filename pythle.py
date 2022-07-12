@@ -1,7 +1,7 @@
 import random
 
 from colorama import Fore, Style
-answers = [
+possible_answers = [
     'japan', 'rainy', 'night', 'daily', 'about', 'reset', 'slate', 'stalk', 'crane', 'frame',
     'niger', 'state', 'modes', 'moody', 'arson', 'crank', 'diner', 'place', 'timed', 'lanes',
     'print', 'later', 'crate', 'fonts', 'pills', 'pines', 'wines', 'fairy', 'fable', 'rhine',
@@ -13,7 +13,18 @@ answers = [
     'three', 'first', 'eight', 'sassy', 'faker', 'duped', 'dupes', 'dukes', 'duchy', 'seals',
     'penny', 'cones', 'legit', 'favor', 'prick', 'riser', 'riffs', 'mines', 'fails', 'fiery'
 ]
-ans = random.choices(answers, k=(g := int(input('Amount of words to guess: '))))
+answers = random.choices(possible_answers, k=(g := int(input('Amount of words to guess: '))))
+
+
+def make_unequal(lst, clst):
+    for i, v in enumerate(lst):
+        temp = lst[:i]
+        for j in temp:
+            while lst[i] == j:
+                lst[i] = random.choice(clst)
+                make_unequal(lst, clst)
+
+    return lst
 
 
 def colorize_guess(guess, actual):
@@ -45,39 +56,49 @@ def beautify_list(lst):
     return result
 
 
+answers = make_unequal(answers, possible_answers)
+
 guess = ''
+
 l_guess = [''] * g
+
 won = [False] * g
 won_all = False
+
 modes = {'practice': 'infinite', 'easiest': 20 * g, 'very easy': 12 * g, 'easy': 8 * g, 'normal': 6 * g, 'hard': 4 * g, 'extra hard': 3 * g, 'one-at-a-time': g}
 print('Modes:')
 for k, v in modes.items():
     print(f'\t{k}: {v} {"guess" if v == 1 else "guesses"}')
+
 guess_amt = modes[input(f'Enter mode: ').lower()]
 print(f'You have {guess_amt} {"guess" if guess_amt == 1 else "guesses"}.')
+
 guesses = 1
+
 if guess_amt != 'infinite':
     for i in range(guess_amt):
         guess = input('Guess a word: ')
         while guess.__len__() != 5:
             guess = input('   Try again: ')
 
-        if won_all == False:
+        if not won_all:
             print(' ' * 14, end='')
+
             for j, w in enumerate(won):
                 if w:
                     print(' ' * 6, end='')
                 else:
-                    print(colorize_guess(guess, ans[j]) + ' ', end='')
+                    print(colorize_guess(guess, answers[j]) + ' ', end='')
                     l_guess[j] = guess
+
             print()
 
-        for j, w in enumerate(ans):
+        for j, w in enumerate(answers):
             if guess == w:
                 won[j] = True
 
-        for i in won:
-            if not i:
+        for j in won:
+            if not j:
                 break
         else:
             won_all = True
@@ -94,15 +115,17 @@ else:
 
         if not won_all:
             print(' ' * 14, end='')
+
             for j, w in enumerate(won):
                 if w:
                     print(' ' * 6, end='')
                 else:
-                    print(colorize_guess(guess, ans[j]) + ' ', end='')
+                    print(colorize_guess(guess, answers[j]) + ' ', end='')
                     l_guess[j] = guess
+
             print()
 
-        for j, w in enumerate(ans):
+        for j, w in enumerate(answers):
             if guess == w:
                 won[j] = True
 
@@ -118,10 +141,11 @@ else:
         guesses += 1
 
 mws = f'all {g}'
+
 if won_all:
     print(f'Hooray! You solved {mws if g > 1 else "the word"} in {guesses} {"guess" if guesses == 1 else "guesses"}!')
 
 else:
-    print(f'You lost, but you tried your best. {"Answer" if len(l_guess) == 1 else "Answers"}: {beautify_list(ans)}')
+    print(f'You lost, but you tried your best. {"Answer" if len(l_guess) == 1 else "Answers"}: {beautify_list(answers)}')
 
 input()
