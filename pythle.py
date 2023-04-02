@@ -11,18 +11,19 @@ possible_answers = [
     'roman', 'greek', 'races', 'cared', 'limes', 'lemon', 'camel', 'pasta', 'llama', 'debug',
     'whose', 'which', 'racer', 'water', 'salty', 'proof', 'prove', 'where', 'hours', 'known',
     'three', 'first', 'eight', 'sassy', 'faker', 'duped', 'dupes', 'dukes', 'duchy', 'seals',
-    'penny', 'cones', 'legit', 'favor', 'prick', 'riser', 'riffs', 'mines', 'fails', 'fiery'
+    'penny', 'cones', 'legit', 'favor', 'prick', 'riser', 'riffs', 'mines', 'fails', 'fiery',
+    'bones', 'jelly', 'dimes', 'nutty', 'eagle', 'cries', 'cream', 'waves', 'flaws', 'error',
+    'train', 'manic', 'sauce', 'study', 'earth', 'micro', 'taser', 'tease', 'yummy', 'pizza'
 ]
-answers = random.choices(possible_answers, k=(g := int(input('Amount of words to guess: '))))
+answers = random.choices(possible_answers, k=(g := min([int(input(f'Amount of words to guess (max. {len(possible_answers)}): ')), len(possible_answers)])))
 
 
-def make_unequal(lst, clst):
+def make_unequal(lst: list, clst):
     for i, v in enumerate(lst):
-        temp = lst[:i]
-        for j in temp:
-            while lst[i] == j:
-                lst[i] = random.choice(clst)
-                make_unequal(lst, clst)
+        lst_copy = lst.copy()
+        lst_copy.pop(i)
+        while lst[i] in lst_copy:
+            lst[i] = random.choice(clst)
 
     return lst
 
@@ -71,12 +72,12 @@ for k, v in modes.items():
     print(f'\t{k}: {v} {"guess" if v == 1 else "guesses"}')
 
 guess_amt = modes[input(f'Enter mode: ').lower()]
-print(f'You have {guess_amt} {"guess" if guess_amt == 1 else "guesses"}.')
 
 guesses = 1
 
 if guess_amt != 'infinite':
     for i in range(guess_amt):
+        print(f'Guesses left: {guess_amt - (guesses - 1)}')
         guess = input('Guess a word: ')
         while guess.__len__() != 5:
             guess = input('   Try again: ')
